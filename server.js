@@ -12,6 +12,7 @@ const PORT = process.env.PORT || 3000;
 mongoose.connect('mongodb+srv://puritipatipuneeth:rmm2ne2BJxPecgeS@cluster0.newdr7q.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0', {
   useNewUrlParser: true,
   useUnifiedTopology: true,
+  ssl: true,
 });
 
 const db = mongoose.connection;
