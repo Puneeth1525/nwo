@@ -39,8 +39,7 @@ async function generateToken(req, res) {
     transporter.sendMail(mailOptions, function(error, info){
       if (error) {
         console.error('Error sending token:', error);
-        res.status(500).json({ error: 'Error sending token' });
-        res.json({ message: 'please copy your Auth Token: ', token})
+        res.status(500).json({ error: 'Error sending token, generated token: ', token });
       } else {
         console.log('Token sent:', info.response);
         res.json({ message: 'Token sent successfully' });
