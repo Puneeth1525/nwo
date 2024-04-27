@@ -25,8 +25,8 @@ app.use(bodyParser.json());
 
 app.post('/subscriptions', tokenController.authenticateToken, subscriptionController.createUserSubscription);
 app.get('/subscriptions/:userName', tokenController.authenticateToken, subscriptionController.getUserSubscription);
-app.put('/subscriptions/:userName', tokenController.authenticateToken, subscriptionController.updateUserSubscription);
-app.delete('/subscriptions/:userName', tokenController.authenticateToken, subscriptionController.deleteUserSubscription);
+app.put('/subscriptions', tokenController.authenticateToken, subscriptionController.updateUserSubscription);
+app.delete('/subscriptions', tokenController.authenticateToken, subscriptionController.deleteUserSubscription);
 app.get('/allSubscriptions', tokenController.authenticateToken, subscriptionController.getAllSubscriptions);
 app.post('/genToken', tokenController.generateToken);
 
