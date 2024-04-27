@@ -33,7 +33,7 @@ async function getUserSubscription(req, res) {
 
 async function updateUserSubscription(req, res) {
   try {
-    const userName = req.params.userName;
+    const { userName } = req.body;;
     const { industry, source, subcategory } = req.body;
     const subscription = await Subscription.findOneAndUpdate(
       { userName },
@@ -52,7 +52,7 @@ async function updateUserSubscription(req, res) {
 
 async function deleteUserSubscription(req, res) {
   try {
-    const userName = req.params.userName;
+    const { userName } = req.body;
     const subscription = await Subscription.findOneAndDelete({ userName });
     if (!subscription) {
       return res.status(404).json({ error: 'Subscription not found' });
