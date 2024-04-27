@@ -66,13 +66,29 @@ async function deleteUserSubscription(req, res) {
 
 async function getAllSubscriptions(req, res) {
   try {
-    const subscriptions = await Subscription.find({});
+    let { page, limit } = req.query;
+
+    if (!page) {
+      page = 1;
+    }
+    if (!limit) {
+      limit = 10;
+    }
+
+    const pageNumber = parseInt(page);
+    const limitNumber = parseInt(limit);
+
+    const skip = (pageNumber - 1) * limitNumber;
+
+    const subscriptions = await Subscription.find({}).skip(skip).limit(limitNumber);
+
     res.json(subscriptions);
   } catch (error) {
     console.error('Error retrieving subscriptions:', error);
     res.status(500).json({ error: 'Internal server error' });
   }
 }
+
 
 module.exports = {
   createUserSubscription,
