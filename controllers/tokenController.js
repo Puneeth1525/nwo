@@ -25,7 +25,7 @@ async function generateToken(req, res) {
       service: 'gmail',
       auth: {
         user: 'puritipati.puniith@gmail.com',
-        pass: 'ProximusCentauri1234*'
+        pass: 'yourPWD'
       }
     });
 
