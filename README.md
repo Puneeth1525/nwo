@@ -29,4 +29,11 @@ To run the project locally, follow these steps:
 3. Start the server:
 ```bash
 npm start
+```
+
+## API Documentation
+Detailed documentation for each API endpoint is available in the Postman collection. 
+Please refer to the documentation within the collection for information about each endpoint, including request parameters, authentication requirements, and sample responses.
+
+## Remember to replace the URL with localhost:3000, if accessing local server.
 
