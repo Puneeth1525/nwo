@@ -34,7 +34,7 @@ async function getUserSubscription(req, res) {
 async function updateUserSubscription(req, res) {
   try {
     const { userName } = req.body;;
-    const { industry, source, subcategory } = req.body;
+    const { industry, source, subcategory, isActive } = req.body;
     const subscription = await Subscription.findOneAndUpdate(
       { userName },
       { industry, source, subcategory, isActive },
