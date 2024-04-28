@@ -37,8 +37,11 @@ async function updateUserSubscription(req, res) {
     const { industry, source, subcategory } = req.body;
     const subscription = await Subscription.findOneAndUpdate(
       { userName },
-      { industry, source, subcategory },
-      { new: true }
+      { industry, source, subcategory, isActive },
+      { 
+        new: true,
+        upsert: true
+      }
     );
     if (!subscription) {
       return res.status(404).json({ error: 'Subscription not found' });
