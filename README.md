@@ -2,6 +2,8 @@
 
 ## Overview
 
+##Live at nwo.codewithpuniith.com:3000
+
 The goal of this project is to design and implement an API system that supports the creation and management of subscriptions for a newsletter. Users can configure their subscriptions based on industry/sector, source, and subcategory preferences. The API system allows for the creation, retrieval, update, and deletion of subscriptions.
 
 ## Features
