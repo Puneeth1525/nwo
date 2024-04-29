@@ -11,7 +11,8 @@ async function generateToken(req, res) {
     const existingToken = await Token.findOne({ email });
 
     if (existingToken) {
-      return res.json({ token: existingToken.token });
+        console.log(`Token already exists for email: ${email}. Returning existing token.`);
+        return res.json({ token: existingToken.token });
     }
 
     
@@ -19,6 +20,7 @@ async function generateToken(req, res) {
 
     
     await Token.create({ email, token });
+    console.log("Genrating new Token for ", email)
 
     
     const transporter = nodemailer.createTransport({
@@ -37,13 +39,13 @@ async function generateToken(req, res) {
     };
 
     transporter.sendMail(mailOptions, function(error, info){
-      if (error) {
-        console.error('Error sending token:', error);
-        res.status(500).json({ error: 'Error sending token, generated token: ', token });
-      } else {
-        console.log('Token sent:', info.response);
-        res.json({ message: 'Token sent successfully' });
-      }
+        if (error) {
+            console.error('Error Emailing token:', error);
+            res.status(500).json({ error: 'Error Emailing token, generated token: ', token });
+          } else {
+            console.log(`Token sent to ${email}: ${info.response}`);
+            res.json({ message: 'Token sent successfully' });
+          }
     });
   } catch (error) {
     console.error('Error generating token:', error);
@@ -58,15 +60,16 @@ function authenticateToken(req, res, next) {
     console.log("headers token: ",token)
   
     if (!token) {
-      return res.status(401).json({ error: 'Unauthorized: Token is required' });
+        console.error('Unauthorized: Token is required');
+        return res.status(401).json({ error: 'Unauthorized: Token is required' });
     }
   
     Token.exists({ token })
       .then(tokenExists => {
 
         if (!tokenExists) {
-            console.log("not there")
-          return res.status(401).json({ error: 'Unauthorized: Invalid token' });
+            console.error('Unauthorized: Invalid token');
+            return res.status(401).json({ error: 'Unauthorized: Invalid token' });
         }
         next();
       })

@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Live Logs</title>
+  <style>
+    body {
+      font-family: monospace;
+      background-color: #000;
+      color: #fff;
+      padding: 20px;
+      position: relative;
+    }
+    #logs {
+      height: calc(100vh - 180px); /* Adjusted height */
+      overflow-y: scroll;
+      border: 1px solid #ccc;
+      padding: 10px;
+    }
+    .log-line {
+      padding: 5px;
+      border-bottom: 1px solid #444;
+    }
+    .log-line:last-child {
+      border-bottom: none;
+    }
+    .log-line.error {
+      color: #f00;
+    }
+    #status-indicator {
+      position: absolute;
+      left: 10px;
+    }
+    .status-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      display: inline-block;
+      margin-right: 5px;
+      animation: blink 1s infinite;
+    }
+    .connected {
+      background-color: green;
+    }
+    .disconnected {
+      background-color: red;
+    }
+    @keyframes blink {
+    50% {
+        opacity: 0; /* Toggle the opacity to create the blinking effect */
+        }
+    }
+    #stats {
+      margin-top: 20px;
+      left: 10px; /* Moved to the left */
+    }
+  </style>
+</head>
+<body>
+ 
+  <div id="logs"></div>
+  <div id="status-indicator">
+    <span class="status-dot connected"></span>
+    <span id="status-text">Connected</span>
+  </div>
+  <div>
+    <ul id="stats">
+        <li id="data-transfer">Data Transfer: 0 KB/s</li>
+        <li id="cpu-usage">CPU Usage: 0%</li>
+        <li id="heap-usage">Heap Usage: 0 MB</li>
+      </ul>
+  </div>
+
+  <script>
+    const logsDiv = document.getElementById('logs');
+    const ws = new WebSocket('ws://localhost:3001');
+
+    ws.onopen = () => {
+      const statusIndicator = document.querySelector('.status-dot');
+      statusIndicator.classList.remove('disconnected');
+      statusIndicator.classList.add('connected');
+    };
+
+    ws.onclose = () => {
+      const statusIndicator = document.querySelector('.status-dot');
+      statusIndicator.classList.remove('connected');
+      statusIndicator.classList.add('disconnected');
+      const statusText = document.getElementById('status-text');
+      statusText.textContent = 'Disconnected (Refresh after Server start)';
+    };
+
+    ws.onmessage = (event) => {
+      const logMessage = document.createElement('div');
+      logMessage.classList.add('log-line');
+      logMessage.textContent = event.data;
+      if (event.data.startsWith('[ERROR]')) {
+        logMessage.classList.add('error');
+      }
+      logsDiv.appendChild(logMessage);
+
+      logsDiv.scrollTop = logsDiv.scrollHeight;
+      updateStats(event.data);
+    };
+
+    function updateStats() {
+  const dataTransfer = Math.floor(Math.random() * 100);
+  const cpuUsage = Math.floor(Math.random() * 100);
+  const heapUsage = Math.floor(Math.random() * 100);
+
+  document.getElementById('data-transfer').textContent = `Data Transfer: ${dataTransfer} KB/s`;
+  document.getElementById('cpu-usage').textContent = `CPU Usage: ${cpuUsage}%`;
+  document.getElementById('heap-usage').textContent = `Heap Usage: ${heapUsage} KB`;
+}
+
+setInterval(updateStats, 1000);
+
+  </script>
+</body>
+</html>

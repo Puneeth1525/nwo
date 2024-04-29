@@ -4,6 +4,8 @@ const bodyParser = require('body-parser');
 const subscriptionController = require('./controllers/subscriptionController');
 const mongoose = require('mongoose');
 const tokenController = require('./controllers/tokenController');
+const startLoggingServer = require('./logServer');
+
 
 
 const app = express();
@@ -30,6 +32,10 @@ app.delete('/subscriptions', tokenController.authenticateToken, subscriptionCont
 app.get('/allSubscriptions', tokenController.authenticateToken, subscriptionController.getAllSubscriptions);
 app.post('/genToken', tokenController.generateToken);
 
+app.use(express.static('./'));
+
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
+
+startLoggingServer(3001);
