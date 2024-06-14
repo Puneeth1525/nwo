@@ -6,11 +6,14 @@ const mongoose = require('mongoose');
 const tokenController = require('./controllers/tokenController');
 const reelrecController = require('./controllers/reelrecController');
 const startLoggingServer = require('./logServer');
+const cors = require('cors');
 
 
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+
+app.use(cors());
 
 mongoose.connect('mongodb+srv://puritipatipuneeth:rmm2ne2BJxPecgeS@cluster0.newdr7q.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0', {
   useNewUrlParser: true,
