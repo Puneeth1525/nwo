@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const subscriptionController = require('./controllers/subscriptionController');
 const mongoose = require('mongoose');
 const tokenController = require('./controllers/tokenController');
+const reelrecController = require('./controllers/reelrecController');
 const startLoggingServer = require('./logServer');
 
 
@@ -31,6 +32,24 @@ app.put('/subscriptions', tokenController.authenticateToken, subscriptionControl
 app.delete('/subscriptions', tokenController.authenticateToken, subscriptionController.deleteUserSubscription);
 app.get('/allSubscriptions', tokenController.authenticateToken, subscriptionController.getAllSubscriptions);
 app.post('/genToken', tokenController.generateToken);
+
+
+// ReelRec routes
+app.post('/users', reelrecController.createUser);
+app.get('/users', reelrecController.getUsers);
+app.get('/users/:userId', reelrecController.getUserById);
+app.put('/users/:userId', reelrecController.updateUser);
+app.delete('/users/:userId', reelrecController.deleteUser);
+
+app.post('/users/:userId/collections', reelrecController.addCollection);
+app.put('/users/:userId/collections/:collectionId', reelrecController.updateCollection);
+app.delete('/users/:userId/collections/:collectionId', reelrecController.deleteCollection);
+
+app.post('/users/:userId/collections/:collectionId/movies', reelrecController.addMovie);
+app.put('/users/:userId/collections/:collectionId/movies/:movieId', reelrecController.updateMovie);
+app.delete('/users/:userId/collections/:collectionId/movies/:movieId', reelrecController.deleteMovie);
+
+
 
 app.use(express.static('./'));
 
