@@ -53,7 +53,6 @@ app.put('/users/:userId/collections/:collectionId/movies/:movieId', reelrecContr
 app.delete('/users/:userId/collections/:collectionId/movies/:movieId', reelrecController.deleteMovie);
 
 
-
 app.use(express.static('./'));
 
 app.listen(PORT, () => {
