@@ -2,10 +2,11 @@ const ReelRec = require('../models/reelrecModel');
 
 exports.createUser = async (req, res) => {
   try {
-    const { email, displayName, collections } = req.body;
+    const { email, uid, displayName, collections } = req.body;
 
     const newUser = new ReelRec({
       email,
+      uid,
       displayName,
       collections: collections || []
     });
@@ -28,7 +29,8 @@ exports.getUsers = async (req, res) => {
 
 exports.getUserById = async (req, res) => {
   try {
-    const user = await ReelRec.findById(req.params.userId);
+    const {uid} = req.params
+    const user = await ReelRec.findOne(uid);
     if (!user) return res.status(404).json({ message: 'User not found' });
     res.status(200).json(user);
   } catch (error) {

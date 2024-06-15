@@ -14,6 +14,7 @@ const collectionSchema = new Schema({
 
 const userSchema = new Schema({
   email: { type: String, required: true, unique: true },
+  uid: { type: String, required: true, unique: true },
   displayName: { type: String },
   collections: [collectionSchema],
 });
