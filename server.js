@@ -5,6 +5,7 @@ const subscriptionController = require('./controllers/subscriptionController');
 const mongoose = require('mongoose');
 const tokenController = require('./controllers/tokenController');
 const reelrecController = require('./controllers/reelrecController');
+const locationController = require('./controllers/locationController');
 const startLoggingServer = require('./logServer');
 const cors = require('cors');
 
@@ -52,6 +53,7 @@ app.post('/users/:userId/collections/:collectionId/movies', reelrecController.ad
 app.put('/users/:userId/collections/:collectionId/movies/:movieId', reelrecController.updateMovie);
 app.delete('/users/:userId/collections/:collectionId/movies/:movieId', reelrecController.deleteMovie);
 
+app.post('/location', locationController.saveLocation);
 
 app.use(express.static('./'));
 
